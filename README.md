@@ -1,0 +1,72 @@
+# Prismatic
+
+Use a naming convention inside your HTML to describe the DOM elements you
+want to access during tests. Prismatic will set up your SitePrism::Pages
+with the intended Sections and Elements.
+
+## Motivation
+
+SitePrism is a wonderful tool for describing web pages in integration tests.
+Unfortunately, it requires the creation of classes which use CSS selectors
+(of XPath expressions) to indicate the elements of interest.
+
+Prismatic aims to allow you skip the use of SitePrism's Page Object Model
+by indicating in the web page itself which are the objects you want to access
+in your tests thanks to [data attributes](http://www.w3.org/html/wg/drafts/html/master/dom.html#embedding-custom-non-visible-data-with-the-data-*-attributes).
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'prismatic'
+```
+
+And then execute:
+
+```
+$ bundle
+```
+
+Or install it yourself as:
+
+```
+$ gem install prismatic
+```
+
+## Usage
+
+Given a page containing this:
+
+```html
+...
+<form data-prism-section="search" method="get" action="search">
+  <input type="text" data-prism-element="query">
+  <input type="submit" data-prism-element="start">
+</form>
+...
+```
+
+## Configuration
+
+In your test setup, do this:
+
+```ruby
+Prismatic.configure do |conf|
+  conf.foo = :bar
+end
+```
+
+Configuration options:
+
+* prefix: (default: 'prism'). By default, prismatic uses data attributes called 
+  'data-prism-*'. Set prefix to another value to allow data atributes to be
+  named differently.
+
+## Contributing
+
+1. Fork it ( https://github.com/[my-github-username]/prismatic/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
