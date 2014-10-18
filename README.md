@@ -36,15 +36,38 @@ $ gem install prismatic
 
 ## Usage
 
-Given a page containing this:
+Add the following attributes to your HTML markup:
+
+* data-prism-element
+* data-prism-elements
+* data-prism-section
+* data-prism-sections
+
+Given a 'search#index' page containing this:
 
 ```html
 ...
 <form data-prism-section="search" method="get" action="search">
   <input type="text" data-prism-element="query">
-  <input type="submit" data-prism-element="start">
+  <input type="submit" data-prism-element="start" value="Search">
 </form>
 ...
+```
+
+Create a page class:
+
+```ruby
+class SearchIndexPage < Prismatic::Page
+  set_url '/search'
+end
+```
+
+When you load the page, the sections and elements are defined:
+
+```ruby
+search_page = SearchIndexPage.new
+search_page.load
+expect(search_page.search.start.text).to eq('Search')
 ```
 
 ## Configuration
