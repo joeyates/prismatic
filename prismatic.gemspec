@@ -11,8 +11,8 @@ Gem::Specification.new do |spec|
   spec.summary       = "Automate SitePrism's access to DOM elements"
   spec.description   = <<-EOT.gsub(/^ +/, '').gsub(/\n/, ' ')
     Thanks to a naming convention, Prismatic recognises the DOM elements in your
-    web pages that you intend to access during integration test and automatically
-    creates the intended `Section` and `Element` members in you `SitePrism::Page`s
+    web pages that you intend to access during integration tests and automatically
+    creates the intended SitePrism sections and elements.
   EOT
   spec.homepage      = 'https://github.com/joeyates/prismatic'
   spec.license       = 'MIT'
@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '~> 1.6'
   spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rspec', '~> 3.0'
 end
