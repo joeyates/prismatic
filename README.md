@@ -83,12 +83,12 @@ end
 Configuration options:
 
 * prefix: (default: 'prism'). By default, prismatic uses data attributes called 
-  'data-prism-*'. Set prefix to another value to allow data atributes to be
+  'data-prism-*'. Set prefix to another value to allow data attributes to be
   named differently.
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/prismatic/fork )
+1. Fork it ( https://github.com/joeyates/prismatic/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
