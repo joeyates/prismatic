@@ -9,20 +9,20 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Joe Yates']
   spec.email         = ['joe.g.yates@gmail.com']
   spec.summary       = "Automate SitePrism's access to DOM elements"
-  spec.description   = <<-EOT
+  spec.description   = <<-EOT.gsub(/^ +/, '').gsub(/\n/, ' ')
     Thanks to a naming convention, Prismatic recognises the DOM elements in your
     web pages that you intend to access during integration test and automatically
     creates the intended `Section` and `Element` members in you `SitePrism::Page`s
   EOT
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/joeyates/prismatic'
   spec.license       = 'MIT'
 
-  spec.files         = `git ls-files -z`.split('\x0')
+  spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(spec)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'site_prism'
+  spec.add_dependency 'site_prism', '~> 2.6'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
   spec.add_development_dependency 'rake', '~> 10.0'
