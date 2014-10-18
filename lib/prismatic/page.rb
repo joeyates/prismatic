@@ -1,7 +1,8 @@
 class Prismatic::Page < SitePrism::Page
   include Prismatic::ElementContainer
 
-  def initialize
+  def load
+    super
     create_elements
   end
 end
