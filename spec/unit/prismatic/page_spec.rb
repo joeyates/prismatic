@@ -1,5 +1,5 @@
 class MyPage < Prismatic::Page
-  set_url '/'
+  set_url '/search'
 end
 
 describe Prismatic::Page do
@@ -15,7 +15,11 @@ describe Prismatic::Page do
     el
   end
 
-  let(:page) { double(Capybara::Session, visit: nil) }
+  let(:page) { double(Capybara::Session, visit: nil, current_url: current_url) }
+  let(:current_url) { non_matching_url } # this means the page is not displayed
+  let(:matching_url) { 'http://example.com/search' }
+  let(:non_matching_url) { 'http://example.com/quux' }
+
   let(:page_element_array) { [] }
   let(:page_elements_array) { [] }
   let(:page_section_array) { [] }
@@ -23,28 +27,31 @@ describe Prismatic::Page do
   let(:singleton_element) { make_element('foo', 'data-prism-element') }
   let(:collection_element) { make_element('bar', 'data-prism-elements') }
 
+  before do
+    allow(Capybara).to receive(:current_session).and_return(page)
+    allow(page).to receive(:all).with('[data-prism-element]').and_return(page_element_array)
+    allow(page).to receive(:all).with('[data-prism-elements]').and_return(page_elements_array)
+    allow(page).to receive(:all).with('[data-prism-section]').and_return(page_section_array)
+    allow(page).to receive(:all).with('[data-prism-sections]').and_return(page_sections_array)
+  end
+
+  subject { MyPage.new }
+
   specify { expect(subject).to be_a(SitePrism::Page) }
 
   describe '#load' do
-    subject do
-      page = MyPage.new
-      page.load
-      page
-    end
-
-    before do
-      allow(Capybara).to receive(:current_session).and_return(page)
-      allow(page).to receive(:all).with('[data-prism-element]').and_return(page_element_array)
-      allow(page).to receive(:all).with('[data-prism-elements]').and_return(page_elements_array)
-      allow(page).to receive(:all).with('[data-prism-section]').and_return(page_section_array)
-      allow(page).to receive(:all).with('[data-prism-sections]').and_return(page_sections_array)
-    end
+    let(:current_url) { matching_url }
 
     context "for 'data-prism-element' attributes" do
       let(:page_element_array) { [singleton_element] }
 
+      before do
+        allow(page).to receive(:find).with("[data-prism-element=\"foo\"]").and_return(singleton_element)
+        subject.load
+      end
+
       it "creates a single element" do
-        expect(subject).to respond_to('foo')
+        expect(subject.foo).to be(singleton_element)
       end
     end
 
@@ -54,6 +61,7 @@ describe Prismatic::Page do
 
       before do
         allow(page).to receive(:all).with('[data-prism-elements="bar"]').and_return(bar_elements_array)
+        subject.load
       end
 
       it "creates an arrays of elements" do
@@ -80,8 +88,12 @@ describe Prismatic::Page do
           allow(singleton_section).to receive(:all).with('[data-prism-sections]').and_return(nested_sections_array)
         end
 
-        it "creates a single section" do
-          expect(subject).to respond_to(section_name)
+        context 'the section' do
+          before { subject.load }
+
+          it "is created" do
+            expect(subject.send(section_name.intern)).to be_a(Prismatic::Section)
+          end
         end
 
         context "with contained 'data-prism-element' attributes" do
@@ -90,6 +102,7 @@ describe Prismatic::Page do
           before do
             allow(singleton_section).to receive(:find).with('[data-prism-element="foo"]').and_return(singleton_element)
             allow(singleton_section).to receive(:find).with('[data-prism-elements="foo"]').and_return([])
+            subject.load
           end
 
           it 'creates an element' do
@@ -105,6 +118,7 @@ describe Prismatic::Page do
             allow(singleton_section).to receive(:all).with('[data-prism-elements="foo"]').and_return(bar_elements_array)
             allow(singleton_section).to receive(:find).with('[data-prism-element="foo"]').and_return([])
             allow(singleton_section).to receive(:find).with('[data-prism-elements="foo"]').and_return(collection_element)
+            subject.load
           end
 
           it 'creates an element array' do
@@ -115,6 +129,8 @@ describe Prismatic::Page do
         context "for heirarchies of DOM elements with 'data-prism-section' attributes" do
           let(:baz_section) { make_section('baz', 'data-prism-section') }
           let(:nested_section_array) { [baz_section] }
+
+          before { subject.load }
 
           it "creates a heirarchy of sections containing elements" do
             expect(subject.send(section_name)).to respond_to(:baz)
@@ -137,6 +153,7 @@ describe Prismatic::Page do
           allow(section_collection_member).to receive(:all).with('[data-prism-elements]').and_return(bar_elements_array)
           allow(section_collection_member).to receive(:all).with('[data-prism-section]').and_return([])
           allow(section_collection_member).to receive(:all).with('[data-prism-sections]').and_return([])
+          subject.load
         end
 
         it "creates an array of sections" do
@@ -144,5 +161,47 @@ describe Prismatic::Page do
         end
       end
     end
+  end
+
+  shared_examples 'optionally creates elements' do |action|
+    context 'the page is not displayed' do
+      let(:current_url) { non_matching_url }
+
+      before do
+        allow(page).to receive(:all)
+        action.call subject
+      end
+
+      it 'does nothing' do
+        expect(page).to_not have_received(:all)
+      end
+    end
+
+    context 'the page is displayed' do
+      let(:current_url) { matching_url }
+      let(:page_element_array) { [singleton_element] }
+
+      before do
+        allow(page).to receive(:all).with("[data-prism-element]").and_return([singleton_element])
+        allow(page).to receive(:find).with("[data-prism-element=\"foo\"]").and_return(singleton_element)
+        action.call subject
+      end
+
+      it 'creates elements' do
+        # stop elements being created:
+        allow(page).to receive(:find).with("[data-prism-element]").and_return([])
+        expect(subject.foo).to be(singleton_element)
+      end
+    end
+  end
+
+  describe '#respond_to?' do
+    action = ->(subject) { subject.respond_to?(:baz) }
+    include_examples 'optionally creates elements', action
+  end
+
+  describe '#method_missing' do
+    action = ->(subject) { subject.baz rescue nil }
+    include_examples 'optionally creates elements', action
   end
 end

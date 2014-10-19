@@ -70,6 +70,15 @@ search_page.load
 expect(search_page.search.start.text).to eq('Search')
 ```
 
+## Warnings
+
+* all Pages need an `url_matcher` so that Prismatic knows when a page is
+  actually loaded. If you don't specify one, Prismatic will create it
+  (see `auto_create_url_matcher` configuration setting),
+* be careful with `wait_for_*`: you may need to manually define a section
+  or element you intend to use as a marker that content is loaded - Prismatic
+  won't create them until they are actually present.
+
 ## Configuration
 
 In your test setup, do this:
@@ -85,6 +94,8 @@ Configuration options:
 * prefix: (default: 'prism'). By default, prismatic uses data attributes called 
   'data-prism-*'. Set prefix to another value to allow data attributes to be
   named differently.
+* auto_create_url_matcher: (default: true). If a Page has no `url_matcher` defined,
+  this sets it to a Regexp based on the Page's `url`.
 
 ## Contributing
 
