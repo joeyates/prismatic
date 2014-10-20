@@ -1,7 +1,7 @@
 # Prismatic
 
 [![Build Status](https://secure.travis-ci.org/joeyates/prismatic.png)][Continuous Integration]
-[![Code Climate](https://codeclimate.com/github/joeyates/prismatic/badges/gpa.svg)](https://codeclimate.com/github/joeyates/prismatic)
+[![Code Climate](https://codeclimate.com/github/joeyates/prismatic/badges/gpa.svg)](https://codeclimate.com/github/joeyates/prismatic)[Source Analysis]
 [![Test Coverage](https://codeclimate.com/github/joeyates/prismatic/badges/coverage.svg)](https://codeclimate.com/github/joeyates/prismatic)
 
   * [Source Code]
@@ -13,6 +13,7 @@
 [API documentation]: http://rubydoc.info/gems/prismatic/frames "RDoc API Documentation at Rubydoc.info"
 [Rubygem]: http://rubygems.org/gems/prismatic "Ruby gem at rubygems.org"
 [Continuous Integration]: http://travis-ci.org/joeyates/prismatic "Build status by Travis-CI"
+[Source Analysis]: https://codeclimate.com/github/joeyates/prismatic "Source code analysis by Code Climate"
 
 Use a naming convention inside your HTML to describe the DOM elements you
 want to access during tests. Prismatic will set up your SitePrism::Pages
