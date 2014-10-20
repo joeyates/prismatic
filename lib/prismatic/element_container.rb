@@ -13,6 +13,7 @@ module Prismatic::ElementContainer
 
     find_all("[#{attribute}]").each do |el|
       name = el[attribute]
+      next if has_instance_method?(self.class, name)
       if is_section?(type)
         self.class.send type.intern, name, Prismatic::Section, "[#{attribute}=\"#{name}\"]"
       else
@@ -27,5 +28,9 @@ module Prismatic::ElementContainer
 
   def attribute_for(type)
     "data-#{Prismatic.prefix}-#{type}"
+  end
+
+  def has_instance_method?(klass, method)
+    klass.instance_methods.include?(method.intern)
   end
 end

@@ -262,6 +262,14 @@ describe Prismatic::Page do
       specify 'get called' do
         expect(subject.foo).to eq(singleton_element)
       end
+
+      specify "don't replace existing methods" do
+        subject.class.send(:define_method, :foo) { 'hello' }
+
+        subject.baz rescue nil
+
+        expect(subject.foo).to eq('hello')
+      end
     end
   end
 end
