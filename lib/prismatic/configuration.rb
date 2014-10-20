@@ -14,7 +14,6 @@ module Prismatic::Configuration
       end
       new_value = value == :no_value_supplied ? default : value
       instance_variable_set(v, new_value)
-      new_value
     end
   end
 
