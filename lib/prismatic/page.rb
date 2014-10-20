@@ -28,6 +28,7 @@ class Prismatic::Page < SitePrism::Page
   def optionally_set_url_matcher
     return unless self.class.url_matcher.nil?
     return if self.class.url.nil?
+    return unless Prismatic.auto_create_url_matcher
     self.class.set_url_matcher %r(^https?://[^/]+#{self.class.url}([#\?].*)?$)
   end
 end

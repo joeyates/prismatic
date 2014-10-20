@@ -84,8 +84,8 @@ expect(search_page.search.start.text).to eq('Search')
 In your test setup, do this:
 
 ```ruby
-Prismatic.configure do |conf|
-  conf.foo = :bar
+Prismatic.configure do
+  foo :bar
 end
 ```
 

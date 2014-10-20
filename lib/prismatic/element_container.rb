@@ -26,6 +26,6 @@ module Prismatic::ElementContainer
   end
 
   def attribute_for(type)
-    "data-prism-#{type}"
+    "data-#{Prismatic.prefix}-#{type}"
   end
 end

@@ -39,6 +39,49 @@ describe Prismatic::Page do
 
   specify { expect(subject).to be_a(SitePrism::Page) }
 
+  context 'configuration' do
+    let(:current_url) { matching_url }
+    let(:prefix) { 'hello' }
+    let(:singleton_element) { make_element('foo', "data-#{prefix}-element") }
+
+    before do
+      allow(page).to receive(:all).with("[data-#{prefix}-element]").and_return([singleton_element])
+      allow(page).to receive(:all).with("[data-#{prefix}-elements]").and_return([])
+      allow(page).to receive(:all).with("[data-#{prefix}-section]").and_return([])
+      allow(page).to receive(:all).with("[data-#{prefix}-sections]").and_return([])
+      allow(page).to receive(:find).with("[data-#{prefix}-element=\"foo\"]").and_return(singleton_element)
+    end
+
+    context 'when a prefix is configured' do
+      before { @old_prefix = Prismatic.prefix; Prismatic.prefix prefix }
+      after { Prismatic.prefix @old_prefix }
+
+      it 'is used' do
+        subject.load
+        expect(subject.foo).to be(singleton_element)
+      end
+    end
+
+    context 'when auto_create_url_matcher is set to false' do
+      before do
+        @old_setting = Prismatic.auto_create_url_matcher
+        Prismatic.auto_create_url_matcher false
+      end
+      after { Prismatic.auto_create_url_matcher @old_setting }
+
+      # As 'url_matcher' gets set on the class itself,
+      # we use a throwaway class for this example
+      let(:klass) { Class.new(MyPage) }
+      subject { klass.new }
+
+      it 'fails to create elements' do
+        expect do
+          subject.load
+        end.to raise_error
+      end
+    end
+  end
+
   describe '#load' do
     let(:current_url) { matching_url }
 
