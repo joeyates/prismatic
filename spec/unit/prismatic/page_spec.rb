@@ -144,7 +144,7 @@ describe Prismatic::Page do
 
           before do
             allow(singleton_section).to receive(:find).with('[data-prism-element="foo"]').and_return(singleton_element)
-            allow(singleton_section).to receive(:find).with('[data-prism-elements="foo"]').and_return([])
+            allow(singleton_section).to receive(:find).with('[data-prism-elements="bar"]').and_return([])
             subject.load
           end
 
@@ -157,15 +157,15 @@ describe Prismatic::Page do
           let(:bar_elements_array) { [collection_element] }
 
           before do
-            allow(singleton_section).to receive(:all).with('[data-prism-element="foo"]').and_return(foo_element_array)
-            allow(singleton_section).to receive(:all).with('[data-prism-elements="foo"]').and_return(bar_elements_array)
+            allow(singleton_section).to receive(:all).with('[data-prism-element="foo"]').and_return([])
+            allow(singleton_section).to receive(:all).with('[data-prism-elements="bar"]').and_return(bar_elements_array)
             allow(singleton_section).to receive(:find).with('[data-prism-element="foo"]').and_return([])
-            allow(singleton_section).to receive(:find).with('[data-prism-elements="foo"]').and_return(collection_element)
+            allow(singleton_section).to receive(:find).with('[data-prism-elements="bar"]').and_return(collection_element)
             subject.load
           end
 
           it 'creates an element array' do
-            expect(subject.send(section_name).foo).to be_a(Array)
+            expect(subject.send(section_name).bar).to be_a(Array)
           end
         end
 
