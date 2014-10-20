@@ -241,5 +241,19 @@ describe Prismatic::Page do
   describe '#method_missing' do
     action = ->(subject) { subject.baz rescue nil }
     include_examples 'optionally creates elements', action
+
+    context 'on-the-fly methods' do
+      let(:current_url) { matching_url }
+      let(:page_element_array) { [singleton_element] }
+
+      before do
+        allow(page).to receive(:all).with("[data-prism-element]").and_return([singleton_element])
+        allow(page).to receive(:find).with("[data-prism-element=\"foo\"]").and_return(singleton_element)
+      end
+
+      specify 'get called' do
+        expect(subject.foo).to eq(singleton_element)
+      end
+    end
   end
 end
