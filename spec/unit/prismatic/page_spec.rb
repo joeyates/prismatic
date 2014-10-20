@@ -202,7 +202,7 @@ describe Prismatic::Page do
   end
 
   shared_examples 'optionally creates elements' do |action|
-    context 'the page is not displayed' do
+    context 'when the page is not displayed' do
       let(:current_url) { non_matching_url }
 
       before do
@@ -215,7 +215,7 @@ describe Prismatic::Page do
       end
     end
 
-    context 'the page is displayed' do
+    context 'when the page is displayed' do
       let(:current_url) { matching_url }
       let(:page_element_array) { [singleton_element] }
 
