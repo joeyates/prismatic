@@ -6,7 +6,7 @@ class Prismatic::Page < SitePrism::Page
     optionally_create_elements
   end
 
-  def respond_to?(method_id)
+  def respond_to?(method_id, include_all = false)
     optionally_create_elements
     methods.include?(method_id)
   end
