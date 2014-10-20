@@ -1,8 +1,8 @@
 # Prismatic
 
 [![Build Status](https://secure.travis-ci.org/joeyates/prismatic.png)][Continuous Integration]
-[![Code Climate](https://codeclimate.com/github/joeyates/prismatic/badges/gpa.svg)][Source Analysis]
-[![Test Coverage](https://codeclimate.com/github/joeyates/prismatic/badges/coverage.svg)][Code Coverage]
+[![Source Analysis](https://codeclimate.com/github/joeyates/prismatic/badges/gpa.svg)][Source Analysis]
+[![Test Coverage](https://codeclimate.com/github/joeyates/prismatic/badges/coverage.svg)][Test Coverage]
 
   * [Source Code]
   * [API documentation]
