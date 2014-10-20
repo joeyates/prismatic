@@ -55,9 +55,10 @@ describe Prismatic::Page do
       allow(page).to receive(:find).with("[data-#{prefix}-element=\"foo\"]").and_return(singleton_element)
     end
 
+    after { Prismatic.reset_configuration }
+
     context 'when a prefix is configured' do
-      before { @old_prefix = Prismatic.prefix; Prismatic.prefix prefix }
-      after { Prismatic.prefix @old_prefix }
+      before { Prismatic.prefix prefix }
 
       it 'is used' do
         subject.load
@@ -66,16 +67,7 @@ describe Prismatic::Page do
     end
 
     context 'when auto_create_url_matcher is set to false' do
-      before do
-        @old_setting = Prismatic.auto_create_url_matcher
-        Prismatic.auto_create_url_matcher false
-      end
-      after { Prismatic.auto_create_url_matcher @old_setting }
-
-      # As 'url_matcher' gets set on the class itself,
-      # we use a throwaway class for this example
-      let(:klass) { Class.new(MyPage) }
-      subject { klass.new }
+      before { Prismatic.auto_create_url_matcher false }
 
       it 'fails to create elements' do
         expect do

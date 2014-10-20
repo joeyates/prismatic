@@ -20,4 +20,12 @@ module Prismatic::Configuration
   def configure(&block)
     Docile.dsl_eval(self, &block)
   end
+
+  def reset_configuration
+    OPTIONS_AND_DEFAULTS.each do |option, default|
+      v = "@#{option}"
+      instance_variable_set(v, default)
+    end
+    true
+  end
 end

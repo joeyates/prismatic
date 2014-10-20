@@ -1,9 +1,13 @@
 require 'prismatic'
 
 describe Prismatic::Configuration do
+  after do
+    Prismatic.reset_configuration
+  end
+
   [
     [:prefix,                  'prism', 'foo'],
-    #[:auto_create_url_matcher, true,    false],
+    [:auto_create_url_matcher, true,    false],
   ].each do |option, default, new_value|
     describe "##{option}" do
       it 'returns the value' do
@@ -28,13 +32,23 @@ describe Prismatic::Configuration do
     end
   end
 
-  context 'configuration' do
+  context '.configure' do
     it 'sets values in the block' do
       Prismatic.configure do
         prefix 'bar'
       end
 
       expect(Prismatic.prefix).to eq('bar')
+    end
+  end
+
+  context '.reset_configuration' do
+    it 'resets options to defaults' do
+      Prismatic.prefix 'aaaaaaa'
+
+      Prismatic.reset_configuration
+
+      expect(Prismatic.prefix).to eq('prism')
     end
   end
 end
