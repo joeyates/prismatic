@@ -1,7 +1,7 @@
 module Prismatic::ElementContainer
   private
 
-  def create_elements
+  def update_elements
     find_matches 'element'
     find_matches 'elements'
     find_matches 'section'

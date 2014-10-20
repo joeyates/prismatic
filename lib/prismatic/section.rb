@@ -3,6 +3,6 @@ class Prismatic::Section < SitePrism::Section
 
   def initialize(parent, root_element)
     super
-    create_elements
+    update_elements
   end
 end

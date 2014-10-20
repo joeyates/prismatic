@@ -262,13 +262,40 @@ describe Prismatic::Page do
       specify 'get called' do
         expect(subject.foo).to eq(singleton_element)
       end
+    end
+  end
 
-      specify "don't replace existing methods" do
-        subject.class.send(:define_method, :foo) { 'hello' }
+  context 'on-the-fly methods' do
+    let(:current_url) { matching_url }
+    let(:page_element_array) { [singleton_element] }
 
+    before do
+      allow(page).to receive(:all).with("[data-prism-element]").and_return([singleton_element])
+      allow(page).to receive(:find).with("[data-prism-element=\"foo\"]").and_return(singleton_element)
+    end
+
+    specify "don't replace existing methods" do
+      subject.class.send(:define_method, :foo) { 'hello' }
+
+      subject.baz rescue nil
+
+      expect(subject.foo).to eq('hello')
+    end
+
+    context 'with dynamic content' do
+      specify 'missing methods are created on successive updates' do
+        # Initially it's not there:
+        allow(page).to receive(:all).with("[data-prism-element]").and_return([])
         subject.baz rescue nil
 
-        expect(subject.foo).to eq('hello')
+        expect(subject.methods).to_not include(:foo)
+
+        # Then it appears:
+        allow(page).to receive(:all).with("[data-prism-element]").and_return([singleton_element])
+        subject.baz rescue nil
+
+        expect(subject.methods).to include(:foo)
+        expect(subject.foo).to eq(singleton_element)
       end
     end
   end

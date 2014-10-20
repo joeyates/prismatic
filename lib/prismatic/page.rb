@@ -3,26 +3,26 @@ class Prismatic::Page < SitePrism::Page
 
   def load
     super
-    optionally_create_elements
+    optionally_update_elements
   end
 
   def respond_to?(method_id, include_all = false)
-    optionally_create_elements
+    optionally_update_elements
     methods.include?(method_id)
   end
 
   def method_missing(method_id, *args)
-    optionally_create_elements
+    optionally_update_elements
     return super unless methods.include?(method_id)
     send(method_id, *args)
   end
 
   private
 
-  def optionally_create_elements
+  def optionally_update_elements
     optionally_set_url_matcher
     return unless displayed?(0)
-    create_elements
+    update_elements
   end
 
   def optionally_set_url_matcher
