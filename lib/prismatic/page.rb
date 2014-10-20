@@ -13,7 +13,7 @@ class Prismatic::Page < SitePrism::Page
 
   def method_missing(method_id, *args)
     optionally_create_elements
-    return unless methods.include?(method_id)
+    return super unless methods.include?(method_id)
     send(method_id, *args)
   end
 

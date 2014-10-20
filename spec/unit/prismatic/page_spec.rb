@@ -242,6 +242,14 @@ describe Prismatic::Page do
     action = ->(subject) { subject.baz rescue nil }
     include_examples 'optionally creates elements', action
 
+    context 'with truly missing methods' do
+      specify 'raise an error' do
+        expect do
+          subject.baz
+        end.to raise_error(NoMethodError)
+      end
+    end
+
     context 'on-the-fly methods' do
       let(:current_url) { matching_url }
       let(:page_element_array) { [singleton_element] }
