@@ -1,7 +1,3 @@
-class MyPage < Prismatic::Page
-  set_url '/search'
-end
-
 describe Prismatic::Page do
   def make_element(name, attribute)
     el = double(Capybara::Node::Element)
@@ -35,7 +31,14 @@ describe Prismatic::Page do
     allow(page).to receive(:all).with('[data-prism-sections]').and_return(page_sections_array)
   end
 
-  subject { MyPage.new }
+  # As 'url' and 'url_matcher' get set on the class itself,
+  # we use different subclasses for each example
+  let(:klass) do
+    Class.new(Prismatic::Page) do
+      set_url '/search'
+    end
+  end
+  subject { klass.new }
 
   specify { expect(subject).to be_a(SitePrism::Page) }
 
