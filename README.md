@@ -1,4 +1,14 @@
-# Prismatic
+# Prismatic [![Build Status](https://secure.travis-ci.org/joeyates/prismatic.png)][Continuous Integration]
+
+  * [Source Code]
+  * [API documentation]
+  * [Rubygem]
+  * [Continuous Integration]
+
+[Source Code]: https://github.com/joeyates/prismatic "Source code at GitHub"
+[API documentation]: http://rubydoc.info/gems/prismatic/frames "RDoc API Documentation at Rubydoc.info"
+[Rubygem]: http://rubygems.org/gems/prismatic "Ruby gem at rubygems.org"
+[Continuous Integration]: http://travis-ci.org/joeyates/prismatic "Build status by Travis-CI"
 
 Use a naming convention inside your HTML to describe the DOM elements you
 want to access during tests. Prismatic will set up your SitePrism::Pages
