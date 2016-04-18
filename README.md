@@ -52,7 +52,9 @@ $ gem install prismatic
 
 ## Usage
 
-Add the following attributes to your HTML markup:
+There are two steps:
+
+First, add the following attributes to your HTML markup:
 
 * data-prism-element
 * data-prism-elements
@@ -70,7 +72,7 @@ Given a 'search#index' page containing this:
 ...
 ```
 
-Create a page class:
+Second, create a page class:
 
 ```ruby
 class SearchIndexPage < Prismatic::Page
