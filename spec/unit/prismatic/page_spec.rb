@@ -65,16 +65,6 @@ describe Prismatic::Page do
         expect(subject.foo).to be(singleton_element)
       end
     end
-
-    context 'when auto_create_url_matcher is set to false' do
-      before { Prismatic.auto_create_url_matcher false }
-
-      it 'fails to create elements' do
-        expect do
-          subject.load
-        end.to raise_error
-      end
-    end
   end
 
   describe '#load' do
