@@ -23,6 +23,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'site_prism', '~> 2.6'
+  if RUBY_VERSION < '2'
+    spec.add_dependency 'mime-types', '~> 2.6'
+  end
   spec.add_dependency 'docile', '~> 1.1'
 
   spec.add_development_dependency 'bundler', '~> 1.6'
