@@ -70,6 +70,10 @@ describe Prismatic::Page do
   describe '#load' do
     let(:current_url) { matching_url }
 
+    it "accepts arguments" do
+      subject.load(foo: :bar)
+    end
+
     context "for 'data-prism-element' attributes" do
       let(:page_element_array) { [singleton_element] }
 

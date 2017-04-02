@@ -1,8 +1,8 @@
 class Prismatic::Page < SitePrism::Page
   include Prismatic::ElementContainer
 
-  def load
-    super
+  def load(*args)
+    super(*args)
     optionally_update_elements
   end
 
