@@ -1,9 +1,13 @@
+sudo: false
 language: ruby
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1
+  - 2.2
+  - 2.3.0
+  - 2.4
   - jruby
+branches:
+  only:
+    - master
 before_install:
   - gem update --system
   - gem update bundler
