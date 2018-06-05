@@ -114,10 +114,10 @@ describe Prismatic::Page do
         before do
           allow(page).to receive(:all).with("[data-prism-section=\"#{section_name}\"]").and_return([singleton_section])
           allow(page).to receive(:find).with("[data-prism-section=\"#{section_name}\"]").and_return(singleton_section)
-          allow(singleton_section).to receive(:all).with('[data-prism-element]').and_return(foo_element_array)
-          allow(singleton_section).to receive(:all).with('[data-prism-elements]').and_return(bar_elements_array)
-          allow(singleton_section).to receive(:all).with('[data-prism-section]').and_return(nested_section_array)
-          allow(singleton_section).to receive(:all).with('[data-prism-sections]').and_return(nested_sections_array)
+          allow(singleton_section).to receive(:find_all).with('[data-prism-element]').and_return(foo_element_array)
+          allow(singleton_section).to receive(:find_all).with('[data-prism-elements]').and_return(bar_elements_array)
+          allow(singleton_section).to receive(:find_all).with('[data-prism-section]').and_return(nested_section_array)
+          allow(singleton_section).to receive(:find_all).with('[data-prism-sections]').and_return(nested_sections_array)
         end
 
         context 'the section' do
@@ -146,8 +146,8 @@ describe Prismatic::Page do
           let(:bar_elements_array) { [collection_element] }
 
           before do
-            allow(singleton_section).to receive(:all).with('[data-prism-element="foo"]').and_return([])
-            allow(singleton_section).to receive(:all).with('[data-prism-elements="bar"]').and_return(bar_elements_array)
+            allow(singleton_section).to receive(:find_all).with('[data-prism-element="foo"]').and_return([])
+            allow(singleton_section).to receive(:find_all).with('[data-prism-elements="bar"]').and_return(bar_elements_array)
             allow(singleton_section).to receive(:find).with('[data-prism-element="foo"]').and_return([])
             allow(singleton_section).to receive(:find).with('[data-prism-elements="bar"]').and_return(collection_element)
             subject.load
@@ -181,10 +181,10 @@ describe Prismatic::Page do
           allow(page).to receive(:all).with('[data-prism-section]').and_return([])
           allow(page).to receive(:all).with("[data-prism-sections=\"#{collection_name}\"]").and_return(page_sections_array)
           allow(page).to receive(:find).with("[data-prism-sections=\"#{collection_name}\"]").and_return(section_collection_member)
-          allow(section_collection_member).to receive(:all).with('[data-prism-element]').and_return(foo_element_array)
-          allow(section_collection_member).to receive(:all).with('[data-prism-elements]').and_return(bar_elements_array)
-          allow(section_collection_member).to receive(:all).with('[data-prism-section]').and_return([])
-          allow(section_collection_member).to receive(:all).with('[data-prism-sections]').and_return([])
+          allow(section_collection_member).to receive(:find_all).with('[data-prism-element]').and_return(foo_element_array)
+          allow(section_collection_member).to receive(:find_all).with('[data-prism-elements]').and_return(bar_elements_array)
+          allow(section_collection_member).to receive(:find_all).with('[data-prism-section]').and_return([])
+          allow(section_collection_member).to receive(:find_all).with('[data-prism-sections]').and_return([])
           subject.load
         end
 
