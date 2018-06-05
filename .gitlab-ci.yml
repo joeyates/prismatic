@@ -1,8 +1,28 @@
-build:
+default: &default
   script:
   - gem install bundler --conservative
   - bundle install --quiet --path bundle
   - bundle exec rake spec
+
+build:ruby23:
+  image: ruby:2.3
+  <<: *default
+  cache:
+    key: "prismatic"
+    paths:
+    - bundle/
+
+build:ruby24:
+  image: ruby:2.4
+  <<: *default
+  cache:
+    key: "prismatic"
+    paths:
+    - bundle/
+
+build:ruby25:
+  image: ruby:2.5
+  <<: *default
   cache:
     key: "prismatic"
     paths:
