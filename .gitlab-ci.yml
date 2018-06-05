@@ -1,0 +1,9 @@
+build:
+  script:
+  - gem install bundler --conservative
+  - bundle install --quiet --path bundle
+  - bundle exec rake spec
+  cache:
+    key: "prismatic"
+    paths:
+    - bundle/
